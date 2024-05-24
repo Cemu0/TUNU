@@ -50,7 +50,7 @@ export class SLRdetect {
     this.gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
       baseOptions: {
         modelAssetPath:
-          '/model/sign_language_recognizer.task',
+          './model/sign_language_recognizer.task',
         delegate: 'GPU'
       },
       runningMode: this.runningMode
