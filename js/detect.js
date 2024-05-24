@@ -1,4 +1,5 @@
-import { FilesetResolver, GestureRecognizer, DrawingUtils } from '@mediapipe/tasks-vision'
+import { FilesetResolver, GestureRecognizer, DrawingUtils } 
+  from 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm'
 
 class SLRdetect {
   constructor() {
