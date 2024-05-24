@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "chrome",
+            "name": "debug using live server",
+            "request": "launch",
+            "url": "http://localhost:5500"
+        }
+    ]
+}
