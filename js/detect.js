@@ -103,6 +103,8 @@ export class SLRdetect {
 
     });    
   }
+
+  
   async predictWebcam() {
     const webcamElement = document.getElementById('webcam')
     // Now let's start detecting the stream.
@@ -121,13 +123,20 @@ export class SLRdetect {
       this.canvasElement.style.width = this.videoWidth
       webcamElement.style.width = this.videoWidth
 
+
+      
       if (this.results.landmarks) {
+        //flip all landmarks points
         for (const landmarks of this.results.landmarks) {
-          drawingUtils.drawConnectors(landmarks, GestureRecognizer.HAND_CONNECTIONS, {
-            color: '#ffe802',
+          let newlandmarks = []
+          for (const landmark of landmarks){
+            newlandmarks.push({x: 0.5 - landmark.x, y: landmark.y})
+          }
+          drawingUtils.drawConnectors(newlandmarks, GestureRecognizer.HAND_CONNECTIONS, {
+          color: '#ffe802',
             lineWidth: 20
           })
-          drawingUtils.drawLandmarks(landmarks, {
+          drawingUtils.drawLandmarks(newlandmarks, {
             color: '#ffe802',
             lineWidth: 10
           })
@@ -141,6 +150,7 @@ export class SLRdetect {
       const categoryScore = parseFloat(this.results.gestures[0][0].score * 100).toFixed(2)
       const handedness = this.results.handednesses[0][0].displayName
       this.gestureOutput.style.display = 'block'
+      //flip the canvas
       this.gestureOutput.style.width = this.videoWidth
       this.gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`  
       if(categoryName != ''){
