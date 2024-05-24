@@ -51,12 +51,9 @@
     function callback(data) {
         if(data == 'Y' || data=='Yes')
             gameAction('y')
-        if(data == 'n' )
+        if(data == 'n' || data=='No')
             gameAction('n')
-        if(data == 'L' )
-            gameAction('ArrowLeft')
-        if(data == 'R' )
-            gameAction('ArrowRight')
+        gameAction(data.toLowerCase());
     }
     detect.init(callback);
 </script>
