@@ -1,7 +1,10 @@
-import { FilesetResolver, GestureRecognizer, DrawingUtils } 
-  from 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm'
+import {
+  GestureRecognizer,
+  FilesetResolver,
+  DrawingUtils
+} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
 
-class SLRdetect {
+export class SLRdetect {
   constructor() {
       this.gestureRecognizer = null;
       this.runningMode = 'VIDEO';
@@ -151,7 +154,9 @@ class SLRdetect {
           this.confidence +=1
           if(this.confidence == this.confidenceThreshold){
             console.log("detected ",categoryName)
-            this.callback(categoryName);
+            if (this.callback){
+              this.callback(categoryName);
+            }
           }
         }
       }
@@ -165,5 +170,3 @@ class SLRdetect {
   }
   
 }
-
-export default SLRdetect;

@@ -43,6 +43,11 @@
 </div>
 
 <script type="module" src="js/game.js"></script>
-
+<script type="module">
+    import { SLRdetect } from './js/detect.js';
+    console.log('detect.js');
+    let detect = new SLRdetect();
+    detect.init(null);
+</script>
 </body>
 </html>
