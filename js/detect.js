@@ -1,7 +1,10 @@
-import { FilesetResolver, GestureRecognizer, DrawingUtils } 
-  from 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/+esm'
+import {
+  GestureRecognizer,
+  FilesetResolver,
+  DrawingUtils
+} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
 
-class SLRdetect {
+export class SLRdetect {
   constructor() {
       this.gestureRecognizer = null;
       this.runningMode = 'VIDEO';
@@ -108,7 +111,7 @@ class SLRdetect {
       this.lastVideoTime = this.video.currentTime
       this.results = this.gestureRecognizer.recognizeForVideo(this.video, nowInMs)
     }
-    if (this.debug) {
+    // if (this.debug) {
       this.canvasCtx.save()
       this.canvasCtx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height)
       const drawingUtils = new DrawingUtils(this.canvasCtx)
@@ -121,27 +124,25 @@ class SLRdetect {
       if (this.results.landmarks) {
         for (const landmarks of this.results.landmarks) {
           drawingUtils.drawConnectors(landmarks, GestureRecognizer.HAND_CONNECTIONS, {
-            color: '#00FF00',
-            lineWidth: 5
+            color: '#ffe802',
+            lineWidth: 20
           })
           drawingUtils.drawLandmarks(landmarks, {
-            color: '#FF0000',
-            lineWidth: 2
+            color: '#ffe802',
+            lineWidth: 10
           })
         }
       }
       this.canvasCtx.restore()
-    }
+    // }
 
     if (this.results.gestures.length > 0) {
       const categoryName = this.results.gestures[0][0].categoryName
       const categoryScore = parseFloat(this.results.gestures[0][0].score * 100).toFixed(2)
       const handedness = this.results.handednesses[0][0].displayName
-      if (this.debug) {
-        this.gestureOutput.style.display = 'block'
-        this.gestureOutput.style.width = this.videoWidth
-        this.gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`  
-      }
+      this.gestureOutput.style.display = 'block'
+      this.gestureOutput.style.width = this.videoWidth
+      this.gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`  
       if(categoryName != ''){
         
         if (this.lastCharacter !== categoryName) {
@@ -151,7 +152,9 @@ class SLRdetect {
           this.confidence +=1
           if(this.confidence == this.confidenceThreshold){
             console.log("detected ",categoryName)
-            this.callback(categoryName);
+            if (this.callback){
+              this.callback(categoryName);
+            }
           }
         }
       }
@@ -165,5 +168,3 @@ class SLRdetect {
   }
   
 }
-
-export default SLRdetect;

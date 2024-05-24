@@ -11,6 +11,9 @@
             overflow: hidden;
             width: 100%;
             height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background: url('/mnt/data/background.jpg') no-repeat center center fixed;
             background-size: cover;
         }
@@ -18,7 +21,7 @@
         canvas {
             display: block;
             height: 100%;
-            width: 70%;
+            width: 60%;
             align-items: center;
             align-self: center;
         }
@@ -40,6 +43,19 @@
 </div>
 
 <script type="module" src="js/game.js"></script>
-
+<script type="module">
+    import { SLRdetect } from './js/detect.js';
+    import { gameAction } from './js/game.js';
+    console.log('detect.js');
+    let detect = new SLRdetect();
+    function callback(data) {
+        if(data == 'Y' || data=='Yes')
+            gameAction('y')
+        if(data == 'n' || data=='No')
+            gameAction('n')
+        gameAction(data.toLowerCase());
+    }
+    detect.init(callback);
+</script>
 </body>
 </html>
