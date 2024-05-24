@@ -11,9 +11,6 @@
             overflow: hidden;
             width: 100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             background: url('/mnt/data/background.jpg') no-repeat center center fixed;
             background-size: cover;
         }
@@ -21,7 +18,7 @@
         canvas {
             display: block;
             height: 100%;
-            width: 60%;
+            width: 70%;
             align-items: center;
             align-self: center;
         }
@@ -80,6 +77,11 @@
     let laneMarkerMoveY = 0;
     let crashRect = { x: 0, y: 0, width: 0, height: 0 };
 
+    const words = ["cat", "dog", "fox", "hat", "bat", "rat", "pig", "cow", "owl", "bee"];
+    let currentWord = words[Math.floor(Math.random() * words.length)];
+    let typedWord = '';
+    let inputLocked = false;
+
     function drawRoad() {
         ctx.fillStyle = colors.green;
         ctx.fillRect(0, 0, width, height);
@@ -119,6 +121,18 @@
         ctx.fillText(`Score: ${score}`, 50, 50);
     }
     
+    function drawWord() {
+        ctx.font = '20px Arial';
+        ctx.fillStyle = colors.white;
+        ctx.fillText(`Type the word: ${currentWord}`, width / 2 - 80, 50);
+    }
+
+    function drawTypedWord() {
+        ctx.font = '20px Arial';
+        ctx.fillStyle = colors.white;
+        ctx.fillText(`Typed: ${typedWord}`, 20, 100);
+    }
+
     function drawGameOver() {
         ctx.drawImage(crashImage, crashRect.x - crashRect.width / 2, crashRect.y - crashRect.height / 2);
         ctx.fillStyle = colors.red;
@@ -174,6 +188,8 @@
         drawPlayer();
         drawVehicles();
         drawScore();
+        drawWord();
+        drawTypedWord();
         
         if (checkCollisions()) {
             drawGameOver();
@@ -184,11 +200,6 @@
     }
 
     document.addEventListener('keydown', event => {
-        if (event.key === 'ArrowLeft' && player.x === rightLane) {
-            player.x = leftLane;
-        } else if (event.key === 'ArrowRight' && player.x === leftLane) {
-            player.x = rightLane;
-        }
         if (gameover) {
             if (event.key === 'y' || event.key === 'Y') {
                 gameover = false;
@@ -197,9 +208,23 @@
                 vehicles = [];
                 player.x = leftLane;
                 player.y = playerY;
+                currentWord = words[Math.floor(Math.random() * words.length)];
+                typedWord = '';
+                inputLocked = false;
                 requestAnimationFrame(gameLoop);
             } else if (event.key === 'n' || event.key === 'N') {
                 gameover = false;
+            }
+        } else if (!inputLocked) {
+            if (event.key.length === 1 && /[a-zA-Z]/.test(event.key)) {
+                typedWord += event.key.toLowerCase();
+                if (!currentWord.startsWith(typedWord)) {
+                    inputLocked = true;
+                } else if (typedWord === currentWord) {
+                    player.x = player.x === leftLane ? rightLane : leftLane;
+                    currentWord = words[Math.floor(Math.random() * words.length)];
+                    typedWord = '';
+                }
             }
         }
     });
