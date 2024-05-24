@@ -26,8 +26,9 @@ const playerX = leftLane; // Start in the left lane
 const playerY = 400;
 const fps = 60;
 let gameover = false;
-let speed = 0.2;
+let speed = 0.1;
 let score = 0;
+let lastTime = Date.now();
 
 const carImage = new Image();
 carImage.src = 'images/car.png';
@@ -216,7 +217,6 @@ function checkCollisions() {
 
 function gameLoop() {
     ctx.clearRect(0, 0, width, height);
-    
     drawRoad();
     drawLaneMarkers();
     drawPlayer();
@@ -237,7 +237,6 @@ export function gameAction(action){
     if (gameover) {
         if (action === 'y' || action === 'Y') {
             gameover = false;
-            speed = 2;
             score = 0;
             vehicles = [];
             player.x = leftLane;
