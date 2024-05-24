@@ -45,9 +45,20 @@
 <script type="module" src="js/game.js"></script>
 <script type="module">
     import { SLRdetect } from './js/detect.js';
+    import { gameAction } from './js/game.js';
     console.log('detect.js');
     let detect = new SLRdetect();
-    detect.init(null);
+    function callback(data) {
+        if(data == 'Y' || data=='Yes')
+            gameAction('y')
+        if(data == 'n' )
+            gameAction('n')
+        if(data == 'L' )
+            gameAction('ArrowLeft')
+        if(data == 'R' )
+            gameAction('ArrowRight')
+    }
+    detect.init(callback);
 </script>
 </body>
 </html>

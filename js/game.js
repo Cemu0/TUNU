@@ -151,14 +151,14 @@ function gameLoop() {
     }
 }
 
-document.addEventListener('keydown', event => {
-    if (event.key === 'ArrowLeft' && player.x === rightLane) {
+export function gameAction(action){
+    if (action === 'ArrowLeft' && player.x === rightLane) {
         player.x = leftLane;
-    } else if (event.key === 'ArrowRight' && player.x === leftLane) {
+    } else if (action === 'ArrowRight' && player.x === leftLane) {
         player.x = rightLane;
     }
     if (gameover) {
-        if (event.key === 'y' || event.key === 'Y') {
+        if (action === 'y' || action === 'Y') {
             gameover = false;
             speed = 2;
             score = 0;
@@ -166,10 +166,16 @@ document.addEventListener('keydown', event => {
             player.x = leftLane;
             player.y = playerY;
             requestAnimationFrame(gameLoop);
-        } else if (event.key === 'n' || event.key === 'N') {
+        } else if (action === 'n' || action === 'N') {
             gameover = false;
         }
     }
+}
+
+
+document.addEventListener('keydown', event => {
+    console.log(event.key);
+    gameAction(event.key);
 });
 
 carImage.onload = () => {
