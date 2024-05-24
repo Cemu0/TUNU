@@ -1,6 +1,6 @@
 ## APP HỌC NHANH THỔ NGỮ - Ngôn Ngữ Ký Hiệu
 
-Để sử dụng, bạn hãy truy cập trang [tunu.quocanh.net](https://thongu.quocanh.net) trên vi tính cá nhân, khuyến khích sử dụng trình duyệt Chrome (mobile chưa hỗ trợ hoàn toàn, nhưng bạn có thể thử)
+Để sử dụng, bạn hãy truy cập trang [tunu.quocanh.net](https://tunu.quocanh.net) trên vi tính cá nhân, khuyến khích sử dụng trình duyệt Chrome (mobile chưa hỗ trợ hoàn toàn, nhưng bạn có thể thử)
 
 ### Hướng dẫn chơi:  
 1. Bấm **start** trên màn hình: activate game play (nếu lần đầu chơi, bạn sẽ được yêu cầu cho phép truy cập camera)
