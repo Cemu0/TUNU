@@ -52,6 +52,63 @@ const words = ["cat", "dog", "fox", "hat", "bat", "rat", "pig", "cow", "owl", "b
 let currentWord = words[Math.floor(Math.random() * words.length)];
 let typedWord = '';
 
+const letterImages = {
+    'a': new Image(),
+    'b': new Image(),
+    'c': new Image(),
+    'd': new Image(),
+    'e': new Image(),
+    'f': new Image(),
+    'g': new Image(),
+    'h': new Image(),
+    'i': new Image(),
+    'j': new Image(),
+    'k': new Image(),
+    'l': new Image(),
+    'm': new Image(),
+    'n': new Image(),
+    'o': new Image(),
+    'p': new Image(),
+    'q': new Image(),
+    'r': new Image(),
+    's': new Image(),
+    't': new Image(),
+    'u': new Image(),
+    'v': new Image(),
+    'w': new Image(),
+    'x': new Image(),
+    'y': new Image(),
+    'z': new Image()
+};
+
+letterImages['a'].src = './images/hand_gesture/A.png';
+letterImages['b'].src = './images/hand_gesture/B.png';
+letterImages['c'].src = './images/hand_gesture/C.png';
+letterImages['d'].src = './images/hand_gesture/D.png';
+letterImages['e'].src = './images/hand_gesture/E.png';
+letterImages['f'].src = './images/hand_gesture/F.png';
+letterImages['g'].src = './images/hand_gesture/G.png';
+letterImages['h'].src = './images/hand_gesture/H.png';
+letterImages['i'].src = './images/hand_gesture/I.png';
+letterImages['j'].src = './images/hand_gesture/J.png';
+letterImages['k'].src = './images/hand_gesture/K.png';
+letterImages['l'].src = './images/hand_gesture/L.png';
+letterImages['m'].src = './images/hand_gesture/M.png';
+letterImages['n'].src = './images/hand_gesture/N.png';
+letterImages['o'].src = './images/hand_gesture/O.png';
+letterImages['p'].src = './images/hand_gesture/P.png';
+letterImages['q'].src = './images/hand_gesture/Q.png';
+letterImages['r'].src = './images/hand_gesture/R.png';
+letterImages['s'].src = './images/hand_gesture/S.png';
+letterImages['t'].src = './images/hand_gesture/T.png';
+letterImages['u'].src = './images/hand_gesture/U.png';
+letterImages['v'].src = './images/hand_gesture/V.png';
+letterImages['w'].src = './images/hand_gesture/W.png';
+letterImages['x'].src = './images/hand_gesture/X.png';
+letterImages['y'].src = './images/hand_gesture/Y.png';
+letterImages['z'].src = './images/hand_gesture/Z.png';
+
+
 function drawRoad() {
     ctx.fillStyle = colors.green;
     ctx.fillRect(0, 0, width, height);
@@ -101,7 +158,14 @@ function drawTypedWord() {
     ctx.font = '20px Arial';
     ctx.fillStyle = colors.white;
     ctx.fillText(`Typed: ${typedWord}`, 20, 100);
+    
+    let xPos = 20;
+let nextCharacter = currentWord[typedWord.length]
+    const image = letterImages[nextCharacter];
+    ctx.drawImage(image, xPos, 120, 50, 50)
 }
+
+
 
 function drawGameOver() {
     ctx.drawImage(crashImage, crashRect.x - crashRect.width / 2, crashRect.y - crashRect.height / 2);
@@ -199,6 +263,17 @@ export function gameAction(action){
 
 }
 
+
+const loadPromises = Object.values(letterImages).map(img => {
+    return new Promise((resolve) => {
+        img.onload = resolve;
+    });
+});
+
+Promise.all(loadPromises).then(() => {
+    // Start the game loop once all images are loaded
+    requestAnimationFrame(gameLoop);
+});
 
 document.addEventListener('keydown', event => {
     console.log(event.key);
