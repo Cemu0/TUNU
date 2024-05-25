@@ -22,7 +22,6 @@
         #gameCanvas {
             width: 100%;
             height: 100%;
-            border-radius: 10px;
         }
 
         #webcamButton {
@@ -43,11 +42,11 @@
         #liveView {
             position: absolute;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            left: 40%;
+            /* transform: translate(-50%, -50%); */
             z-index: 2;
             display: none;
-            text-align: center;
+            /* text-align: center; */
             padding: 20px;
         }
 
@@ -79,7 +78,7 @@
 <canvas id="gameCanvas"></canvas>
 
 <button id="webcamButton">
-    Start 
+    Bắt đầu 
 </button>
 
 <div id="liveView">
@@ -90,14 +89,14 @@
 </div>
 
 <div id="gesture_output">
-    <p>Hand Gesture Output</p>
+    <p>Cho tay lên camera để nhận diện !</p>
 </div>
 
 
 <script type="module" src="js/game.js"></script>
 <script type="module">
     import { SLRdetect } from './js/detect.js';
-    import { gameAction } from './js/game.js';
+    import { gameAction, gameBegin} from './js/game.js';
     console.log('detect.js');
     let detect = new SLRdetect();
     function callback(data) {
@@ -115,6 +114,7 @@
     webcamButton.addEventListener('click', () => {
         liveView.style.display = 'block';
         webcamButton.style.display = 'none';
+        gameBegin();
     });
 </script>
 </body>

@@ -133,11 +133,11 @@ export class SLRdetect {
             newlandmarks.push({x: 0.5 - landmark.x, y: landmark.y})
           }
           drawingUtils.drawConnectors(newlandmarks, GestureRecognizer.HAND_CONNECTIONS, {
-          color: '#ffe802',
+          color: '#ff8b00',
             lineWidth: 20
           })
           drawingUtils.drawLandmarks(newlandmarks, {
-            color: '#ffe802',
+            color: '#ff8b26',
             lineWidth: 10
           })
         }
@@ -152,7 +152,7 @@ export class SLRdetect {
       this.gestureOutput.style.display = 'block'
       //flip the canvas
       this.gestureOutput.style.width = this.videoWidth
-      this.gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`  
+      this.gestureOutput.innerText = `Ký hiệu của bạn: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`  
       if(categoryName != ''){
         
         if (this.lastCharacter !== categoryName) {

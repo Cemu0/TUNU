@@ -25,9 +25,10 @@ const lanes = [leftLane, rightLane];
 const playerX = leftLane; // Start in the left lane
 const playerY = 400;
 const fps = 60;
-let gameover = false;
-let speed = 0.2;
+let gameover = true;
+let speed = 0.1;
 let score = 0;
+let lastTime = Date.now();
 
 const carImage = new Image();
 carImage.src = 'images/car.png';
@@ -78,7 +79,8 @@ const letterImages = {
     'w': new Image(),
     'x': new Image(),
     'y': new Image(),
-    'z': new Image()
+    'z': new Image(),
+    'yes': new Image()
 };
 
 letterImages['a'].src = './images/hand_gesture/A.png';
@@ -107,6 +109,7 @@ letterImages['w'].src = './images/hand_gesture/W.png';
 letterImages['x'].src = './images/hand_gesture/X.png';
 letterImages['y'].src = './images/hand_gesture/Y.png';
 letterImages['z'].src = './images/hand_gesture/Z.png';
+letterImages['yes'].src = './images/hand_gesture/YES.png';
 
 
 function drawRoad() {
@@ -145,27 +148,26 @@ function drawVehicles() {
 function drawScore() {
     ctx.font = '16px Arial';
     ctx.fillStyle = colors.white;
-    ctx.fillText(`Score: ${score}`, 50, 50);
+    ctx.fillText(`Điểm số: ${Math.round(score * 100) / 100}`, 50, 50);
+    ctx.fillText(`Tốc độ: ${Math.round(speed * 100) / 100}`, 50, 70);
 }
 
 function drawWord() {
     ctx.font = '20px Arial';
     ctx.fillStyle = colors.white;
-    ctx.fillText(`Type the word: ${currentWord}`, width / 2 - 80, 50);
+    ctx.fillText(`Bạn cần gõ chữ: ${currentWord}`, width / 2 - 80, 50);
 }
 
 function drawTypedWord() {
     ctx.font = '20px Arial';
     ctx.fillStyle = colors.white;
-    ctx.fillText(`Typed: ${typedWord}`, 20, 100);
+    ctx.fillText(`Đã gõ: ${typedWord}`, 20, 100);
     
     let xPos = 20;
-let nextCharacter = currentWord[typedWord.length]
+    let nextCharacter = currentWord[typedWord.length];
     const image = letterImages[nextCharacter];
-    ctx.drawImage(image, xPos, 120, 50, 50)
+    ctx.drawImage(image, xPos, 120, 50, 50);
 }
-
-
 
 function drawGameOver() {
     ctx.drawImage(crashImage, crashRect.x - crashRect.width / 2, crashRect.y - crashRect.height / 2);
@@ -173,7 +175,27 @@ function drawGameOver() {
     ctx.fillRect(0, 50, width, 100);
     ctx.font = '16px Arial';
     ctx.fillStyle = colors.white;
-    ctx.fillText('Game over. Play again? (Enter Y or N)', width / 2 - 120, 100);
+    ctx.fillText('Bạn đã thua. Sử dụng \'Có\' để bắt đầu!', width / 2 - 120, 100);
+    const image = letterImages['yes'];
+    ctx.drawImage(image, 180, 180, 80, 80);
+}
+
+function drawStartScreen() {
+    ctx.fillStyle = colors.gray;
+    ctx.fillRect(0, 0, width, height);
+    ctx.font = '30px Arial';
+    ctx.fillStyle = colors.white;
+    ctx.clearRect(0, 0, width, height);
+    drawRoad();
+    drawLaneMarkers();
+    drawPlayer();
+    drawVehicles();
+}
+
+export function gameBegin() {
+    ctx.fillText('Sử dụng Có để bắt đầu!', width / 2 - 100, 100);
+    const image = letterImages['yes'];
+    ctx.drawImage(image, 180, 180, 80, 80);
 }
 
 function updateVehicles() {
@@ -216,7 +238,6 @@ function checkCollisions() {
 
 function gameLoop() {
     ctx.clearRect(0, 0, width, height);
-    
     drawRoad();
     drawLaneMarkers();
     drawPlayer();
@@ -233,18 +254,21 @@ function gameLoop() {
     }
 }
 
-export function gameAction(action){
+function startGame() {
+    gameover = false;
+    score = 0;
+    vehicles = [];
+    player.x = leftLane;
+    player.y = playerY;
+    currentWord = words[Math.floor(Math.random() * words.length)];
+    typedWord = '';
+    requestAnimationFrame(gameLoop);
+}
+
+export function gameAction(action) {
     if (gameover) {
         if (action === 'y' || action === 'Y') {
-            gameover = false;
-            speed = 2;
-            score = 0;
-            vehicles = [];
-            player.x = leftLane;
-            player.y = playerY;
-            currentWord = words[Math.floor(Math.random() * words.length)];
-            typedWord = '';
-            requestAnimationFrame(gameLoop);
+            startGame();
         } else if (action === 'n' || action === 'N') {
             gameover = false;
         }
@@ -255,14 +279,15 @@ export function gameAction(action){
                 player.x = player.x === leftLane ? rightLane : leftLane;
                 currentWord = words[Math.floor(Math.random() * words.length)];
                 typedWord = '';
+                if (speed < 2)
+                    speed += 0.01;
+                score += 100 * speed;
             } else if (!currentWord.startsWith(typedWord)) {
-                typedWord = '';
+                typedWord = typedWord.slice(0, -1);
             }
         }
     }
-
 }
-
 
 const loadPromises = Object.values(letterImages).map(img => {
     return new Promise((resolve) => {
@@ -271,15 +296,10 @@ const loadPromises = Object.values(letterImages).map(img => {
 });
 
 Promise.all(loadPromises).then(() => {
-    // Start the game loop once all images are loaded
-    requestAnimationFrame(gameLoop);
+    // Draw the start screen once all images are loaded
+    drawStartScreen();
 });
 
 document.addEventListener('keydown', event => {
-    console.log(event.key);
     gameAction(event.key);
 });
-
-carImage.onload = () => {
-    vehicleImages.forEach(image => image.onload = () => requestAnimationFrame(gameLoop));
-};
