@@ -26,7 +26,7 @@ const playerX = leftLane; // Start in the left lane
 const playerY = 400;
 const fps = 60;
 let gameover = true;
-let speed = 0.1;
+let speed = 0.9;
 let score = 0;
 let lastTime = Date.now();
 
@@ -49,7 +49,7 @@ let vehicles = [];
 let laneMarkerMoveY = 0;
 let crashRect = { x: 0, y: 0, width: 0, height: 0 };
 
-const words = ["cat", "dog", "fox", "hat", "bat", "rat", "pig", "cow", "owl", "bee"];
+const words = ["cat", "eat", "vet", "bat", "rat", "cow", "owl", "bee"];
 let currentWord = words[Math.floor(Math.random() * words.length)];
 let typedWord = '';
 
@@ -113,7 +113,7 @@ letterImages['yes'].src = './images/hand_gesture/YES.png';
 
 
 function drawRoad() {
-    ctx.fillStyle = colors.green;
+    ctx.fillStyle = '#fbfbee';
     ctx.fillRect(0, 0, width, height);
     
     ctx.fillStyle = colors.gray;
@@ -129,7 +129,7 @@ function drawLaneMarkers() {
     if (laneMarkerMoveY >= markerHeight * 2) {
         laneMarkerMoveY = 0;
     }
-    ctx.fillStyle = colors.white;
+    ctx.fillStyle = colors.white ;
     for (let y = markerHeight * -2; y < height; y += markerHeight * 2) {
         ctx.fillRect(width / 2 - markerWidth / 2, y + laneMarkerMoveY, markerWidth, markerHeight);
     }
@@ -147,20 +147,20 @@ function drawVehicles() {
 
 function drawScore() {
     ctx.font = '16px Arial';
-    ctx.fillStyle = colors.white;
+    ctx.fillStyle = '#000000' ;
     ctx.fillText(`Điểm số: ${Math.round(score * 100) / 100}`, 50, 50);
     ctx.fillText(`Tốc độ: ${Math.round(speed * 100) / 100}`, 50, 70);
 }
 
 function drawWord() {
     ctx.font = '20px Arial';
-    ctx.fillStyle = colors.white;
+    ctx.fillStyle = '#000000' ;
     ctx.fillText(`Bạn cần gõ chữ: ${currentWord}`, width / 2 - 80, 50);
 }
 
 function drawTypedWord() {
     ctx.font = '20px Arial';
-    ctx.fillStyle = colors.white;
+    ctx.fillStyle = '#000000' ;
     ctx.fillText(`Đã gõ: ${typedWord}`, 20, 100);
     
     let xPos = 20;
@@ -174,7 +174,7 @@ function drawGameOver() {
     ctx.fillStyle = colors.red;
     ctx.fillRect(0, 50, width, 100);
     ctx.font = '16px Arial';
-    ctx.fillStyle = colors.white;
+    ctx.fillStyle = '#000000' ;
     ctx.fillText('Bạn đã thua. Sử dụng \'Có\' để bắt đầu!', width / 2 - 120, 100);
     const image = letterImages['yes'];
     ctx.drawImage(image, 180, 180, 80, 80);
@@ -184,7 +184,7 @@ function drawStartScreen() {
     ctx.fillStyle = colors.gray;
     ctx.fillRect(0, 0, width, height);
     ctx.font = '30px Arial';
-    ctx.fillStyle = colors.white;
+    ctx.fillStyle = '#000000' ;
     ctx.clearRect(0, 0, width, height);
     drawRoad();
     drawLaneMarkers();
@@ -193,9 +193,11 @@ function drawStartScreen() {
 }
 
 export function gameBegin() {
-    ctx.fillText('Sử dụng Có để bắt đầu!', width / 2 - 100, 100);
+    ctx.fillStyle = '#000000'
+    ctx.fillText('Sử dụng Có để bắt đầu!', width / 2 - 160, 100);
+    ctx.fillStyle ='#000000';
     const image = letterImages['yes'];
-    ctx.drawImage(image, 180, 180, 80, 80);
+    ctx.drawImage(image, 220, 180, 80, 80);
 }
 
 function updateVehicles() {
