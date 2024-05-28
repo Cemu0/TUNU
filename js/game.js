@@ -49,7 +49,11 @@ let vehicles = [];
 let laneMarkerMoveY = 0;
 let crashRect = { x: 0, y: 0, width: 0, height: 0 };
 
-const words = ["cat", "dog", "fox", "hat", "bat", "rat", "pig", "cow", "owl", "bee"];
+const words = ["xin", "chao", "toi", "ten", "la", "thi", "tai", "ban", "yeu", "manh", "khoe", 
+"vui", "buon", "khoe", "benh", "tinh", "ngu", "thuc", "an", "uong", "nha", "truong", "hoc", "gioi", "xau", 
+"tot", "viet", "nam", "mot", "nuoc", "khong", "co", "cac", "nguoi", "nhan", "vien", "bac", "si", "y", "ta",
+"the", "duoc", "kham", "vi", "luat", "su",  "hoa", "sinh", "ly", "hoa", "van", "su", "dia", "lich", "toan"
+] //failed pq ; abcdefghijklmno not exist z
 let currentWord = words[Math.floor(Math.random() * words.length)];
 let typedWord = '';
 
